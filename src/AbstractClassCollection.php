@@ -5,28 +5,10 @@ namespace Rmk\Collections;
 use Rmk\Collections\Exception\InvalidValueTypeException;
 
 /**
- * Collection of objects that are instance of specific class
+ * Abstract class for collections with object of the same class
  */
-class ClassCollection extends Collection
+abstract class AbstractClassCollection extends Collection
 {
-
-    protected string $className;
-
-    /**
-     * @param string $className
-     * @param array $data
-     * @param int $flags
-     * @param string $iteratorClass
-     */
-    public function __construct(
-        string $className,
-        array $data = [],
-        int $flags = 0,
-        string $iteratorClass = \ArrayIterator::class
-    ) {
-        parent::__construct($data, $flags, $iteratorClass);
-        $this->className = $className;
-    }
 
     /**
      * Overrides the default method to ensure the value is instance of the required class
@@ -53,8 +35,16 @@ class ClassCollection extends Collection
      */
     protected function ensureValidValue($value)
     {
-        if (!($value instanceof $this->className)) {
+        $className = $this->getClassName();
+        if (!($value instanceof $className)) {
             throw new InvalidValueTypeException('Value must be instance of ' . $this->className);
         }
     }
+
+    /**
+     * The class that the object must instance of
+     *
+     * @return string
+     */
+    abstract public function getClassName(): string;
 }

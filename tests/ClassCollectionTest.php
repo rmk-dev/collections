@@ -3,15 +3,15 @@
 namespace RmkTests\Collections;
 
 use PHPUnit\Framework\TestCase;
-use Rmk\Collections\ClassCollection;
+use Rmk\Collections\BaseClassCollection;
 use Rmk\Collections\Exception\InvalidValueTypeException;
 
-class ClassCollectionTest extends TestCase
+class BaseClassCollectionTest extends TestCase
 {
 
     public function testAddingObjects(): void
     {
-        $collection = new ClassCollection(\stdClass::class);
+        $collection = new BaseClassCollection(\stdClass::class);
         $collection->append(new \stdClass());
         $collection->append(new \stdClass());
         $collection->append(new \stdClass());

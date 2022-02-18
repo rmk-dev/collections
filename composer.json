@@ -1,0 +1,19 @@
+{
+    "name": "rmk/collections",
+    "description": "Helper classes for dealing with collections",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rmk\\Collections\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kiril Savchev",
+            "email": "k.savchev@gmail.com"
+        }
+    ],
+    "require": {}
+}

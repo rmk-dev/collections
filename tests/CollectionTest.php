@@ -75,4 +75,45 @@ class CollectionTest extends TestCase
         $collection = new Collection($values);
         $this->assertEquals(json_encode($values), json_encode($collection));
     }
+
+    public function testIsEmpty(): void
+    {
+        $collection = new Collection();
+        $this->assertTrue($collection->isEmpty());
+        $collection->set('a', 1);
+        $this->assertFalse($collection->isEmpty());
+    }
+
+    public function testRemove(): void
+    {
+        $collection = new Collection([1, 2, 3, 2, 1]);
+        $collection->remove(1);
+        $this->assertEquals(3, $collection->count());
+        $this->assertFalse($collection->contains(1));
+    }
+
+    public function testRemoveCollection(): void
+    {
+        $collection = new Collection([1, 2, 3, 2, 1]);
+        $forRemoving = new Collection([2, 3]);
+        $collection->removeAll($forRemoving);
+        $this->assertEquals(2, $collection->count());
+        $this->assertTrue($collection->contains(1));
+        $this->assertFalse($collection->contains(2));
+        $this->assertFalse($collection->contains(3));
+    }
+
+    public function testRemovePredicate(): void
+    {
+        $collection = new Collection([1, 2, 3, 2, 1]);
+        $removed = $collection->removeIf(function($a) { return $a !== 2; });
+        $this->assertEquals(2, $collection->count());
+        $this->assertTrue($collection->contains(2));
+        $this->assertFalse($collection->contains(1));
+        $this->assertFalse($collection->contains(3));
+        $this->assertEquals(3, $removed->count());
+        $this->assertFalse($removed->contains(2));
+        $this->assertTrue($removed->contains(1));
+        $this->assertTrue($removed->contains(3));
+    }
 }

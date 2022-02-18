@@ -77,6 +77,17 @@ class Collection extends ArrayObject implements JsonSerializable
     }
 
     /**
+     * @param int $offset
+     * @param int|null $length
+     *
+     * @return $this
+     */
+    public function slice(int $offset, ?int $length = null): Collection
+    {
+        return new static(array_slice($this->getArrayCopy(), $offset, $length));
+    }
+
+    /**
      * @param callable $fn
      */
     public function apply(callable $fn): void
@@ -101,14 +112,56 @@ class Collection extends ArrayObject implements JsonSerializable
     }
 
     /**
-     * @param int $offset
-     * @param int|null $length
-     *
-     * @return $this
+     * @return bool
      */
-    public function slice(int $offset, ?int $length = null): Collection
+    public function isEmpty(): bool
     {
-        return new static(array_slice($this->getArrayCopy(), $offset, $length));
+        return $this->count() === 0;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return void
+     */
+    public function remove($value): void
+    {
+        $filtered = $this->filter(function($a) use ($value) { return $a !== $value; });
+        $this->exchangeArray($filtered->getArrayCopy());
+    }
+
+    /**
+     * @param Collection $collection
+     *
+     * @return void
+     */
+    public function removeAll(Collection $collection): void
+    {
+        $filtered = $this->filter(function($a) use ($collection) { return !$collection->contains($a); });
+        $this->exchangeArray($filtered->getArrayCopy());
+    }
+
+    /**
+     * Remove values if they correspond to a predicate
+     *
+     * Traverses all collection data and passes each value to the predicate.
+     * If the result is true, the value is removed. The removed data is returned as method result.
+     *
+     * @param callable $predicate
+     *
+     * @return Collection The removed values
+     */
+    public function removeIf(callable $predicate): Collection
+    {
+        $removed = new Collection();
+        foreach ($this->getArrayCopy() as $key => $value) {
+            if ($predicate($value)) {
+                $removed->set($key, $value);
+                $this->offsetUnset($key);
+            }
+        }
+
+        return $removed;
     }
 
     /**

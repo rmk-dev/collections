@@ -108,7 +108,7 @@ class CollectionTest extends TestCase
         $this->assertFalse($collection->contains(3));
     }
 
-    public function testRemovePredicate(): void
+    public function testRemoveWithPredicate(): void
     {
         $collection = new Collection([1, 2, 3, 2, 1]);
         $removed = $collection->removeIf(function($a) { return $a !== 2; });

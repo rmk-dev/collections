@@ -1,6 +1,6 @@
 <?php
 
-namespace Rmk\Collectoions;
+namespace Rmk\Collections;
 
 use \ArrayObject;
 use \JsonSerializable;

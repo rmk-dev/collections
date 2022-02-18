@@ -34,9 +34,36 @@ class Collection extends ArrayObject implements JsonSerializable
      * @param mixed $key
      * @param mixed $value
      */
-    public function set($key, $value)
+    public function set($key, $value): void
     {
         $this->offsetSet($key, $value);
+    }
+
+    /**
+     * Alias of "set()"
+     *
+     * @param mixed $key
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function add($key, $value): void
+    {
+        $this->set($key, $value);
+    }
+
+    /**
+     * Add all values from a collection
+     *
+     * @param iterable $collection
+     *
+     * @return void
+     */
+    public function addAll(iterable $collection): void
+    {
+        foreach ($collection as $key => $value) {
+            $this->add($key, $value);
+        }
     }
 
     /**
@@ -162,6 +189,16 @@ class Collection extends ArrayObject implements JsonSerializable
         }
 
         return $removed;
+    }
+
+    /**
+     * Remove all values and their keys
+     *
+     * @return void
+     */
+    public function clear(): void
+    {
+        $this->exchangeArray([]);
     }
 
     /**

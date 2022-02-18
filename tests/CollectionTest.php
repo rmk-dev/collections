@@ -21,6 +21,9 @@ class CollectionTest extends TestCase
         $this->assertEquals('value', $collection->get('test'));
         $this->assertEquals('test_create', $collection->getOrCreate('created', 'test_create'));
         $this->assertEquals('test_create', $collection->getOrCreate('created', 'second try to create'));
+        $collection->addAll(['a' => 'a', 'b' => 'bb']);
+        $this->assertTrue($collection->contains('bb'));
+        $this->assertTrue($collection->has('a'));
         $this->expectException(UndefinedCollectionKeyException::class);
         $this->expectExceptionMessage('No unknown key in the collection');
         $collection->get('unknown');
@@ -43,7 +46,7 @@ class CollectionTest extends TestCase
         $this->assertTrue($filtered->has('two'));
         $this->assertTrue($filtered->has('four'));
         $this->assertFalse($filtered->has('one'));
-        $collection->set('duplicated', 2);
+        $collection->add('duplicated', 2);
         $uniques = $collection->uniques();
         $this->assertNotEquals($collection->count(), $uniques->count());
         $this->assertEquals(4, $uniques->count());
@@ -76,12 +79,14 @@ class CollectionTest extends TestCase
         $this->assertEquals(json_encode($values), json_encode($collection));
     }
 
-    public function testIsEmpty(): void
+    public function testClearAndIsEmpty(): void
     {
         $collection = new Collection();
         $this->assertTrue($collection->isEmpty());
         $collection->set('a', 1);
         $this->assertFalse($collection->isEmpty());
+        $collection->clear();
+        $this->assertTrue($collection->isEmpty());
     }
 
     public function testRemove(): void

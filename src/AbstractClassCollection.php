@@ -37,7 +37,7 @@ abstract class AbstractClassCollection extends Collection
     {
         $className = $this->getClassName();
         if (!($value instanceof $className)) {
-            throw new InvalidValueTypeException('Value must be instance of ' . $this->className);
+            throw new InvalidValueTypeException('Value must be instance of ' . $className);
         }
     }
 

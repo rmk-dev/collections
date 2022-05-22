@@ -12,11 +12,15 @@
             "Rmk\\Collections\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "RmkTests\\Collections\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Kiril Savchev",
             "email": "k.savchev@gmail.com"
         }
-    ],
-    "require": {}
+    ]
 }

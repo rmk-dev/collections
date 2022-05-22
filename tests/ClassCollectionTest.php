@@ -20,4 +20,14 @@ class BaseClassCollectionTest extends TestCase
         $this->expectExceptionMessage('Value must be instance of ' . \stdClass::class);
         $collection->append(new class {});
     }
+
+    public function testConstructorValues(): void
+    {
+        $this->expectException(InvalidValueTypeException::class);
+        $this->expectExceptionMessage('Value must be instance of ' . \stdClass::class);
+        new BaseClassCollection(\stdClass::class, [
+            new \stdClass(),
+            new class {},
+        ]);
+    }
 }

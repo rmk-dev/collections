@@ -26,8 +26,8 @@ class BaseClassCollection extends AbstractClassCollection
         int $flags = 0,
         string $iteratorClass = \ArrayIterator::class
     ) {
-        parent::__construct($data, $flags, $iteratorClass);
         $this->className = $className;
+        parent::__construct($data, $flags, $iteratorClass);
     }
 
     /**

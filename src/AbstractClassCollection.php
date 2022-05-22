@@ -9,6 +9,14 @@ use Rmk\Collections\Exception\InvalidValueTypeException;
  */
 abstract class AbstractClassCollection extends Collection
 {
+    public function __construct($array = [], int $flags = 0, string $iteratorClass = 'ArrayIterator')
+    {
+        parent::__construct([], $flags, $iteratorClass);
+        foreach ($array as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
 
     /**
      * Overrides the default method to ensure the value is instance of the required class

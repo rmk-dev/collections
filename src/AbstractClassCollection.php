@@ -28,7 +28,7 @@ abstract class AbstractClassCollection extends Collection
      *
      * @throws InvalidValueTypeException
      */
-    public function offsetSet($key, $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->ensureValidValue($value);
         parent::offsetSet($key, $value);

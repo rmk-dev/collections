@@ -119,8 +119,9 @@ class Collection extends ArrayObject implements JsonSerializable
      */
     public function apply(callable $fn): void
     {
-        $collection = $this->map($fn);
-        $this->exchangeArray($collection->getArrayCopy());
+        foreach ($this->getArrayCopy() as $key => $value) {
+            $this->offsetSet($key, call_user_func_array($fn, [$value, $key, $this]));
+        }
     }
 
     /**
